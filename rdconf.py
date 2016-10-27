@@ -6,7 +6,12 @@ from optparse import OptionParser
 import os, gzip
 
 '''Given a smiles file, generate 3D conformers in output sdf.  
-Energy minimizes and filters conformers to meet energy window and rms constraints.'''
+Energy minimizes and filters conformers to meet energy window and rms constraints.
+
+Some time ago I compared this to alternative conformer generators and
+it was quite competitive (especially after RDKit's UFF implementation 
+added OOP terms).
+'''
 
 #convert smiles to sdf
 def getRMS(mol, c1,c2):
