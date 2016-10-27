@@ -5,7 +5,8 @@ from rdkit.Chem import AllChem as Chem
 from optparse import OptionParser
 import os, gzip
 
-'''Take query ligand (smi) and test ligands (smi) and output their tanimoto using rdkit fingerprints default'''
+'''Given a smiles file, generate 3D conformers in output sdf.  
+Energy minimizes and filters conformers to meet energy window and rms constraints.'''
 
 #convert smiles to sdf
 def getRMS(mol, c1,c2):
