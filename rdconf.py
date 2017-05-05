@@ -33,7 +33,10 @@ parser.add_option("-v","--verbose", dest="verbose",action="store_true",default=F
                   help="verbose output")
 parser.add_option("--mmff", dest="mmff",action="store_true",default=False,
                   help="use MMFF forcefield instead of UFF")                  
-
+parser.add_option("--nomin", dest="nomin",action="store_true",default=False,
+                  help="don't perform energy minimization (bad idea)")                  
+parser.add_option("--etkdg", dest="etkdg",action="store_true",default=False,
+                  help="use new ETKDG knowledge-based method instead of distance geometry") 
 
     
 (options, args) = parser.parse_args()
@@ -48,6 +51,10 @@ smifile = open(input)
 if options.verbose:
     print "Generating a maximum of",options.maxconfs,"per a mol"
 
+if options.etkdg and not Chem.ETKDG:
+    print "ETKDB does not appear to be implemented.  Please upgrade RDKit."
+    sys.exit(1)
+     
 split = os.path.splitext(output)
 if split[1] == '.gz':
     outf=gzip.open(output,'w+')
@@ -83,16 +90,21 @@ for line in smifile:
             Chem.SanitizeMol(mol)
             mol = Chem.AddHs(mol)
             mol.SetProp("_Name",name);
-            cids = Chem.EmbedMultipleConfs(mol, int(options.sample*options.maxconfs),randomSeed=options.seed)
+            
+            if options.etkdg:
+                cids = Chem.EmbedMultipleConfs(mol, int(options.sample*options.maxconfs), Chem.ETKDG(),randomSeed=options.seed)
+            else:
+                cids = Chem.EmbedMultipleConfs(mol, int(options.sample*options.maxconfs),randomSeed=options.seed)
             if options.verbose:
                 print len(cids),"conformers found"
             cenergy = []            
             for conf in cids:
                 #not passing confID only minimizes the first conformer
+                if options.nomin:
+                    cenergy.append(cid)
                 if options.mmff:
                     converged =  Chem.MMFFOptimizeMolecule(mol,confId=conf)
                     mp = Chem.MMFFGetMoleculeProperties(mol)
-                    print converged
                     cenergy.append(Chem.MMFFGetMoleculeForceField(mol,mp,confId=conf).CalcEnergy()) 
                 else:
                     converged = not Chem.UFFOptimizeMolecule(mol,confId=conf)
