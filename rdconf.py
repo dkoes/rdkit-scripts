@@ -92,7 +92,7 @@ for line in smifile:
             mol.SetProp("_Name",name);
             
             if options.etkdg:
-                cids = Chem.EmbedMultipleConfs(mol, int(options.sample*options.maxconfs), Chem.ETKDG(),randomSeed=options.seed)
+                cids = Chem.EmbedMultipleConfs(mol, int(options.sample*options.maxconfs), Chem.ETKDG())
             else:
                 cids = Chem.EmbedMultipleConfs(mol, int(options.sample*options.maxconfs),randomSeed=options.seed)
             if options.verbose:
@@ -143,8 +143,8 @@ for line in smifile:
                         sdwriter.write(mol,conf)
         except (KeyboardInterrupt, SystemExit):
             raise                
-        except:
-            print "Exception"
+        except Exception as e:
+            print "Exception",e
     else:
         print "ERROR:",smi
 
