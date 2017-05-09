@@ -101,7 +101,7 @@ for line in smifile:
             for conf in cids:
                 #not passing confID only minimizes the first conformer
                 if options.nomin:
-                    cenergy.append(cid)
+                    cenergy.append(conf)
                 if options.mmff:
                     converged =  Chem.MMFFOptimizeMolecule(mol,confId=conf)
                     mp = Chem.MMFFGetMoleculeProperties(mol)
