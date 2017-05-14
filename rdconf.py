@@ -102,7 +102,7 @@ for line in smifile:
                 #not passing confID only minimizes the first conformer
                 if options.nomin:
                     cenergy.append(conf)
-                if options.mmff:
+                elif options.mmff:
                     converged =  Chem.MMFFOptimizeMolecule(mol,confId=conf)
                     mp = Chem.MMFFGetMoleculeProperties(mol)
                     cenergy.append(Chem.MMFFGetMoleculeForceField(mol,mp,confId=conf).CalcEnergy()) 
