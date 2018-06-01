@@ -15,7 +15,7 @@ added OOP terms).
 
 #convert smiles to sdf
 def getRMS(mol, c1,c2):
-    (rms,trans) = Chem.GetAlignmentTransform(mol,mol,c1,c2)
+    rms = Chem.GetBestRMS(mol,mol,c1,c2)
     return rms
 
 parser = OptionParser(usage="Usage: %prog [options] <input>.smi <output>.sdf")

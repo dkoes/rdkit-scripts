@@ -29,10 +29,11 @@ if sdwriter is None:
 for mol in inmols:
     if mol is not None:
         try:
+            orig = Chem.UFFGetMoleculeForceField(mol).CalcEnergy()
             Chem.UFFOptimizeMolecule(mol)
             if options.verbose:
                 e = Chem.UFFGetMoleculeForceField(mol).CalcEnergy()
-                print mol.GetProp('_Name'),e
+                print mol.GetProp('_Name'),orig,"->",e
             sdwriter.write(mol)
         except (KeyboardInterrupt, SystemExit):
             raise            
