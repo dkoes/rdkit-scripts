@@ -56,7 +56,7 @@ def genConformer_r(mol, conf, i, matches, degree, sdwriter):
             deg += args.degree
         return total
 
-parser = argparse.ArgumentParser(description="Usage: %prog [options] <input>.smi <output>.sdf")
+parser = argparse.ArgumentParser(description="Sample nontorsional conformations and exhaustively enumerate torsions to generate conformers.  Lots and lots and lots and lots of conformers.")
 parser.add_argument("--sample", help="number of conformers to sample to get non-torsional differences (default 100)", default=100, type=int, metavar="sample")
 parser.add_argument("--seed", help="random seed (default 062609)", default="062609", type=int, metavar="s")
 parser.add_argument("--rms_threshold", help="cutoff for considering sampled conformers the same (default 0.25)", default="0.25", type=float, metavar="R")
