@@ -41,7 +41,6 @@ def getDihedralMatches(mol):
 def genConformer_r(mol, conf, i, matches, degree, sdwriter):
     '''recursively enumerate all angles for matches dihedrals.  i is where is
     which dihedral we are enumerating by degree to output conformers to out'''
-    print i,matches
     if i >= len(matches): #base case, torsions should be set in conf
         sdwriter.write(mol,conf)
         return 1
@@ -125,7 +124,6 @@ for line in smifile:
                 cenergy.append(Chem.UFFGetMoleculeForceField(mol,confId=conf).CalcEnergy())
             
             #reduce to unique set
-            mol = Chem.RemoveHs(mol)
             sortedcids = sorted(cids,key = lambda cid: cenergy[cid])
             selectedcids = []
             for conf in sortedcids:
