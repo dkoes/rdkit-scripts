@@ -60,7 +60,7 @@ parser.add_argument("--sample", help="number of conformers to sample to get non-
 parser.add_argument("--seed", help="random seed (default 062609)", default="062609", type=int, metavar="s")
 parser.add_argument("--rms_threshold", help="cutoff for considering sampled conformers the same (default 0.25)", default="0.25", type=float, metavar="R")
 parser.add_argument("-v","--verbose",action="store_true",default=False, help="verbose output")
-parser.add_argument("-d","--degree", type=float,help="Amount, in degrees, to enumerate torsions by (default 5.0)",default=5.0)             
+parser.add_argument("-d","--degree", type=float,help="Amount, in degrees, to enumerate torsions by (default 15.0)",default=15.0)             
 parser.add_argument("--etkdg", dest="etkdg",action="store_true",default=False,
                   help="use new ETKDG knowledge-based method instead of distance geometry") 
 parser.add_argument("--max_torsions",type=int,help="Skip any molecules with more than this many torsions (default 10)",default=10)
