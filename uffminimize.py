@@ -30,7 +30,12 @@ for mol in inmols:
     if mol is not None:
         try:
             orig = Chem.UFFGetMoleculeForceField(mol).CalcEnergy()
-            Chem.UFFOptimizeMolecule(mol)
+            a=Chem.UFFOptimizeMolecule(mol)
+            
+            #sometimes the UFF Optimization does not converge (returns a 1 instead of 0)
+            if a==1:
+              a=Chem.UFFOptimizeMolecule(mol, maxIter=1000)
+            
             if options.verbose:
                 e = Chem.UFFGetMoleculeForceField(mol).CalcEnergy()
                 print mol.GetProp('_Name'),orig,"->",e
