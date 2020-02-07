@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys,string,argparse
 from rdkit.Chem import AllChem as Chem
@@ -49,10 +49,10 @@ input = args[0]
 output = args[1]
 smifile = open(input)
 if options.verbose:
-    print "Generating a maximum of",options.maxconfs,"per a mol"
+    print("Generating a maximum of",options.maxconfs,"per a mol")
 
 if options.etkdg and not Chem.ETKDG:
-    print "ETKDB does not appear to be implemented.  Please upgrade RDKit."
+    print("ETKDB does not appear to be implemented.  Please upgrade RDKit.")
     sys.exit(1)
      
 split = os.path.splitext(output)
@@ -69,23 +69,23 @@ else:
     sdwriter = Chem.SDWriter(outf)
     
 if sdwriter is None:
-    print "Could not open ".output
+    print("Could not open ".output)
     sys.exit(-1)
     
 for line in smifile:
     toks = line.split()
     smi = toks[0]
-    name = string.join(toks[1:])    
+    name = ' '.join(toks[1:])    
     
     pieces = smi.split('.')
     if len(pieces) > 1:
         smi = max(pieces, key=len) #take largest component by length
-        print "Taking largest component: %s\t%s" % (smi,name)
+        print("Taking largest component: %s\t%s" % (smi,name))
         
     mol = Chem.MolFromSmiles(smi)
     if mol is not None:
         if options.verbose:
-            print smi
+            print(smi)
         try:
             Chem.SanitizeMol(mol)
             mol = Chem.AddHs(mol)
@@ -96,7 +96,7 @@ for line in smifile:
             else:
                 cids = Chem.EmbedMultipleConfs(mol, int(options.sample*options.maxconfs),randomSeed=options.seed)
             if options.verbose:
-                print len(cids),"conformers found"
+                print(len(cids),"conformers found")
             cenergy = []            
             for conf in cids:
                 #not passing confID only minimizes the first conformer
@@ -110,7 +110,7 @@ for line in smifile:
                     converged = not Chem.UFFOptimizeMolecule(mol,confId=conf)
                     cenergy.append(Chem.UFFGetMoleculeForceField(mol,confId=conf).CalcEnergy())
                 if options.verbose:
-                    print "Convergence of conformer",conf,converged
+                    print("Convergence of conformer",conf,converged)
             
             mol = Chem.RemoveHs(mol)
             sortedcids = sorted(cids,key = lambda cid: cenergy[cid])
@@ -133,7 +133,7 @@ for line in smifile:
                         break
                     #check rmsd
                     passed = True
-                    for seenconf in written.iterkeys():
+                    for seenconf in written.keys():
                         rms = getRMS(mol,seenconf,conf) 
                         if(rms < options.rms) or (options.energy > 0 and cenergy[conf]-mine > options.energy):
                             passed = False
@@ -144,9 +144,9 @@ for line in smifile:
         except (KeyboardInterrupt, SystemExit):
             raise                
         except Exception as e:
-            print "Exception",e
+            print("Exception",e)
     else:
-        print "ERROR:",smi
+        print("ERROR:",smi)
 
 sdwriter.close()
 outf.close()
