@@ -57,7 +57,7 @@ if options.etkdg and not Chem.ETKDG:
      
 split = os.path.splitext(output)
 if split[1] == '.gz':
-    outf=gzip.open(output,'w+')
+    outf=gzip.open(output,'wt+')
     output = split[0] #strip .gz
 else:
     outf = open(output,'w+')
