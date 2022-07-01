@@ -3,7 +3,6 @@
 import argparse, sys, rdkit, collections
 from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import rdMolAlign
-from rdkit.Chem.rdShape import Align
 from rdkit.Chem.rdMolAlign import AlignMol
 from rdkit.Chem import rdMolAlign
 from rdkit.Chem import rdFMCS

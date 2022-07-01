@@ -110,7 +110,7 @@ for line in smifile:
                     converged = not Chem.UFFOptimizeMolecule(mol,confId=conf)
                     cenergy.append(Chem.UFFGetMoleculeForceField(mol,confId=conf).CalcEnergy())
                 if options.verbose:
-                    print("Convergence of conformer",conf,converged)
+                    print("Convergence of conformer",conf,converged,cenergy[-1])
             
             mol = Chem.RemoveHs(mol)
             sortedcids = sorted(cids,key = lambda cid: cenergy[cid])
